@@ -1,6 +1,10 @@
 package org.example.resources;
 
 import org.example.domain.Category;
+import org.example.services.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,16 +17,13 @@ import java.util.List;
 @RequestMapping(value = "/categorias")
 public class CategoryResource {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Category> list() {
+    @Autowired
+    private CategoryService categoryService;
 
-        Category cat1 = new Category(1, "informatica");
-        Category cat2 = new Category(2, "escritorio");
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id) {
 
-        List<Category> list = new ArrayList<>();
-        list.add(cat1);
-        list.add(cat2);
-
-        return list;
+        Category obj = categoryService.find(id);
+        return ResponseEntity.ok().body(obj);
     }
 }
