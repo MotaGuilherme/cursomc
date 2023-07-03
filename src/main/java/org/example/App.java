@@ -1,13 +1,7 @@
 package org.example;
 
-import org.example.domain.Category;
-import org.example.domain.City;
-import org.example.domain.Product;
-import org.example.domain.State;
-import org.example.repositories.CategoryRepository;
-import org.example.repositories.CityRepository;
-import org.example.repositories.ProductRepository;
-import org.example.repositories.StateRepository;
+import org.example.domain.*;
+import org.example.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +24,12 @@ public class App  implements CommandLineRunner {
 
     @Autowired
     private StateRepository stateRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     public static void main( String[] args ) {
         SpringApplication.run(App.class, args);
@@ -68,5 +68,15 @@ public class App  implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(est1, est2));
         cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
+        Client client1 = new Client(null, "Maria silva", "maria@gmail.com", "339595487", ClientType.PESSOAFISICA );
+        client1.getTelefones().addAll(Arrays.asList("123123321", "2548464"));
+
+        Address address1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "337833", client1, c1);
+        Address address2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "213213", client1, c2);
+
+        client1.getAddresses().addAll(Arrays.asList(address1, address2));
+
+        clientRepository.saveAll(Arrays.asList(client1));
+        addressRepository.saveAll(Arrays.asList(address1, address2));
     }
 }
