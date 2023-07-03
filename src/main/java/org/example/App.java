@@ -1,9 +1,13 @@
 package org.example;
 
 import org.example.domain.Category;
+import org.example.domain.City;
 import org.example.domain.Product;
+import org.example.domain.State;
 import org.example.repositories.CategoryRepository;
+import org.example.repositories.CityRepository;
 import org.example.repositories.ProductRepository;
+import org.example.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +24,12 @@ public class App  implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private StateRepository stateRepository;
 
     public static void main( String[] args ) {
         SpringApplication.run(App.class, args);
@@ -43,5 +53,20 @@ public class App  implements CommandLineRunner {
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2));
         productRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+
+        State est1 = new State(null, "Minas Gerais");
+        State est2 = new State(null, "São Paulo");
+
+        City c1 = new City(null, "Uberlandia", est1);
+        City c2 = new City(null, "São Paulo", est2);
+        City c3 = new City(null, "Campinas", est2);
+
+        est1.getCities().addAll(Arrays.asList(c1));
+        est2.getCities().addAll(Arrays.asList(c2, c3));
+
+        stateRepository.saveAll(Arrays.asList(est1, est2));
+        cityRepository.saveAll(Arrays.asList(c1, c2, c3));
+
     }
 }
