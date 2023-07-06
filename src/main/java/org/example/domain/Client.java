@@ -24,7 +24,6 @@ public class Client implements Serializable {
     private String cpfOuCnpj;
     private Integer type;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
