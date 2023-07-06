@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -26,6 +28,9 @@ public class PurchaseOrder implements Serializable {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @OneToMany(mappedBy = "id.purchaseOrder")
+    private Set<OrderItem> items = new HashSet<>();
+
     public PurchaseOrder() {
 
     }
@@ -35,6 +40,14 @@ public class PurchaseOrder implements Serializable {
         this.instante = instante;
         this.client = client;
         this.address = address;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     public Integer getId() {
