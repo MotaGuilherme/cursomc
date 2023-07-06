@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 public class Address implements Serializable {
@@ -118,5 +119,16 @@ public class Address implements Serializable {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @OneToMany(mappedBy = "address")
+    private Collection<PurchaseOrder> purchaseOrder;
+
+    public Collection<PurchaseOrder> getOrder() {
+        return purchaseOrder;
+    }
+
+    public void setOrder(Collection<PurchaseOrder> purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 }

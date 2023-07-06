@@ -1,12 +1,15 @@
 package org.example;
 
 import org.example.domain.*;
+import org.example.domain.enums.ClientType;
+import org.example.domain.enums.StatePayment;
 import org.example.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 
@@ -30,6 +33,12 @@ public class App  implements CommandLineRunner {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public static void main( String[] args ) {
         SpringApplication.run(App.class, args);
@@ -78,5 +87,22 @@ public class App  implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(client1));
         addressRepository.saveAll(Arrays.asList(address1, address2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        PurchaseOrder ped1 = new PurchaseOrder(null, sdf.parse("30/09/2017 10:32"), client1, address1);
+        PurchaseOrder ped2 = new PurchaseOrder(null, sdf.parse("10/10/2017 19:35"), client1, address2);
+
+        Payment pagto1 = new CardPayment(null, StatePayment.QUITADO, ped1, 6);
+        ped1.setPayment(pagto1);
+
+        Payment pagto2 = new TicketPayment(null, StatePayment.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+        ped2.setPayment(pagto2);
+
+        client1.getOrders().addAll(Arrays.asList(ped1, ped2));
+
+        purchaseOrderRepository.saveAll(Arrays.asList(ped1, ped2));
+        paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
     }
 }

@@ -2,6 +2,7 @@ package org.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.example.domain.enums.ClientType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class Client implements Serializable {
     @ElementCollection
     @CollectionTable(name = "telephone")
     private Set<String> telefones = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    private List<PurchaseOrder> purchaseOrders = new ArrayList<>();
 
     public Client() {
 
@@ -95,6 +99,14 @@ public class Client implements Serializable {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
+    }
+
+    public List<PurchaseOrder> getOrders() {
+        return purchaseOrders;
+    }
+
+    public void setOrders(List<PurchaseOrder> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
     }
 
     @Override
