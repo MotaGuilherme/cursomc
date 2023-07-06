@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import org.example.domain.enums.StatePayment;
 
@@ -8,7 +9,10 @@ import java.util.Date;
 @Entity
 public class TicketPayment extends Payment {
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataPagamento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataVencimento;
 
     public TicketPayment() {

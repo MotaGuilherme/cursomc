@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.example.domain.enums.StatePayment;
 
@@ -14,6 +16,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer statePayment;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "purchaseOrder_id")
     @MapsId

@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.example.domain.enums.ClientType;
@@ -22,7 +24,7 @@ public class Client implements Serializable {
     private String cpfOuCnpj;
     private Integer type;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
@@ -30,6 +32,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "telephone")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<PurchaseOrder> purchaseOrders = new ArrayList<>();
 

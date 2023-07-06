@@ -1,8 +1,8 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 import java.io.Serializable;
 
@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 public class OrderItem implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
 
@@ -33,6 +34,7 @@ public class OrderItem implements Serializable {
         return id.getProduct();
     }
 
+    @JsonIgnore
     public PurchaseOrder getPurchaseOrder() {
         return id.getPurchaseOrder();
     }
